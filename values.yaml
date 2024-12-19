@@ -1,6 +1,10 @@
 
 namespace: monitoring
 
+serviceAccount:
+  create: true
+  name: helm
+
 prometheus:
   #endpoint to the api server I.E 
   k8-api-server: https://kubernetes.default
@@ -9,11 +13,11 @@ prometheus:
     name: prometheus-svc
     port: 9090
   spec:
-    image: prom/prometheus:v2.0.0
+    image: prom/prometheus:v3.0.1
 grafana:
   service:
     name: grafana
   spec:
-    image: grafana/grafana:5.2.0
+    image: grafana/grafana:11.4.0
   prometheus:
     endpoint: http://prometheus-svc:9090

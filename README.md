@@ -1,4 +1,4 @@
-# Prometheus 2.0 \ Grafana 4.6.3 on Kubernetes 1.10.3 with RBAC ON
+# Prometheus 3.0 \ Grafana 11.4 on Kubernetes 1.28 with RBAC ON
 
 
 Helm chart for deploying Prometheus and Grafana with full built in Kubernetes pod and infrastructure dashboard
@@ -19,10 +19,7 @@ You might want to reduce the scope of helm account based on your security requir
 
 ```
 kubectl apply -f helm-rbac.yaml
-helm init --service-account helm 
 ```
-
-Note: for existing helm installs, use `--upgrade` to add new service account
 
 ## Installation
 
@@ -32,6 +29,12 @@ Make sure you have kubernetes up and running and a `kubectl` context pointing to
 cd helm
 
 kubectl create namespace monitoring
+
+helm install -f ./values.yaml kube-prometheus ./helm/prometheus
+
+helm install -f ./values.yaml kube-grafana ./helm/grafana
+
+
 
 helm install --name kube-prometheus prometheus -f ../values.yaml --namespace monitoring
 helm install --name kube-grafana grafana -f ../values.yaml --namespace monitoring
@@ -50,4 +53,15 @@ Once everything is running, you can port-forward to check grafana:
 
 kubectl port-forward --namespace=monitoring $(kubectl get pods --namespace=monitoring --selector=app=grafana --output=jsonpath='{.items[*].metadata.name}') 3000:3000
 
+```
+
+## Uninstall everything
+
+```bash
+helm uninstall kube-prometheus
+helm uninstall kube-grafana
+kubectl delete namespace monitoring
+kubectl delete clusterrolebinding helm --namespace kube-system
+kubectl delete serviceaccount helm --namespace kube-system
+kubectl delete namespace monitoring
 ```
