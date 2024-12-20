@@ -26,19 +26,9 @@ kubectl apply -f helm-rbac.yaml
 Make sure you have kubernetes up and running and a `kubectl` context pointing to your target cluster. <br/>
 
 ```
-cd helm
-
 kubectl create namespace monitoring
-
 helm install -f ./values.yaml kube-prometheus ./helm/prometheus
-
 helm install -f ./values.yaml kube-grafana ./helm/grafana
-
-
-
-helm install --name kube-prometheus prometheus -f ../values.yaml --namespace monitoring
-helm install --name kube-grafana grafana -f ../values.yaml --namespace monitoring
-
 ```
 
 ## Make sure everything is running

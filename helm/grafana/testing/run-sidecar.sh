@@ -3,7 +3,7 @@
 #This script is to test the grafana with its sidecar locally to ensure dashboards can import successfully before deploying onto Kubernetes
 #Note: This will just test dashboard import and no metrics will be visible unless a full prometheus stack is running locally
 
-docker run -d --name grafana -p 3000: 3000 grafana/grafana:3.1.1
+docker run -d --name grafana -p 3000: 3000 grafana/grafana:11.4.0
 
 docker run -it --rm --name grafana-init-sidecar -v $PWD/dashboards:/opt/grafana-import-dashboards -e GRAFANA_API="http://grafana:3000" -e PROMETHEUS_SERVICE="http://prometheus-svc.prometheus:9090" \
 --link grafana \
